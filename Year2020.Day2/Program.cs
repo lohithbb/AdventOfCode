@@ -8,7 +8,7 @@ namespace Year2020.Day2
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Advent of Code - Year 2020 - Day 1");
+            Console.WriteLine("Advent of Code - Year 2020 - Day 2");
 
             // input.txt should be present in the /bin directory (Properties > Copu to output directory = Copy always)
             var input = File.ReadAllLines("input.txt");
