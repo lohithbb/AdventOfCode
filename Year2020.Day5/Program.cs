@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Year2020.Day5
 {
@@ -64,6 +66,48 @@ namespace Year2020.Day5
             Console.WriteLine($"Maximum seatID = {max}");
 
             #endregion
+
+
+            #region Part 2
+
+            Print2DArray(seatIDs);
+            // its somewhere in the middle, I can see it
+
+            var seatIDKeyValuePairs = new Dictionary<Tuple<int,int>,int>();
+            for (int i = 0; i < seatIDs.GetLength(0); i++)
+            {
+                for (int j = 0; j < seatIDs.GetLength(1); j++)
+                {
+                    seatIDKeyValuePairs.Add(new Tuple<int,int>(i,j), seatIDs[i,j]);
+                }
+            }
+
+            var seat = seatIDKeyValuePairs
+                .Where(x => x.Value == 0 && x.Key.Item1 > 2) // "> 2" determined using the printed output
+                .First();
+
+            Console.WriteLine($"Your seat : {seat.Key.Item1} , {seat.Key.Item2}");
+            
+            {
+                var seatId = seat.Key.Item1 * 8 + seat.Key.Item2;
+                Console.WriteLine($"Your seat Id : {seatId}");
+            }
+                        
+            #endregion
+
+        }
+
+
+        public static void Print2DArray(int[,] input)
+        {
+            for (int i = 0; i < input.GetLength(0); i++)
+            {
+                for (int j = 0; j < input.GetLength(1); j++)
+                {
+                    Console.Write(input[i,j] + " ");
+                }
+                Console.Write(Environment.NewLine);
+            }
         }
     }
 }
