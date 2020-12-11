@@ -41,8 +41,9 @@ namespace Year2020.Day4
             #region Part 2
 
             // strategy is to cast it to Passport object (which is strongly typed)
-            var validPassports = rawPassports
-                .Where(p => p.IsKindaValid())
+            var kindaValidPassports = rawPassports
+                .Where(p => p.IsKindaValid());
+            var strictlyValidPassports = kindaValidPassports
                 .Select(p =>
                 {
                     try
@@ -56,12 +57,12 @@ namespace Year2020.Day4
                 })
                 .Where(p => p != null);
 
-            //foreach (var p in validPassports)
-            //{
-            //    Console.WriteLine(p.ToString());
-            //}
+            foreach (var p in strictlyValidPassports)
+            {
+                Console.WriteLine(p.ToString());
+            }
 
-            var nStrictlyValidPassports = validPassports.Count();
+            var nStrictlyValidPassports = strictlyValidPassports.Count();
 
             Console.WriteLine($"Number of strictly valid passports (ignoring CountryID) : {nStrictlyValidPassports}");
 
