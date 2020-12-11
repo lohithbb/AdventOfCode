@@ -13,6 +13,11 @@ namespace Year2020.Day4
         {
             Console.WriteLine("Advent of Code - Year 2020 - Day 4");
 
+
+            #region Part 1
+            
+            Console.WriteLine("Part 1");
+
             // input.txt should be present in the /bin directory (Properties > Copy to output directory = Copy always)
             //var input = File.ReadAllLines("input.txt");
             var inputAll = File.ReadAllText("input.txt");
@@ -29,7 +34,39 @@ namespace Year2020.Day4
 
             Console.WriteLine($"Number of valid passports : {nValidPassports}");
             Console.WriteLine($"Number of valid passports (ignoring CountryID) : {nKindaValidPassports}");
-        }
+
+            #endregion
+
+
+            #region Part 2
+
+            // strategy is to cast it to Passport object (which is strongly typed)
+            var validPassports = rawPassports
+                .Where(p => p.IsKindaValid())
+                .Select(p =>
+                {
+                    try
+                    {
+                        return new Passport(p);
+                    }
+                    catch (Exception)
+                    {
+                        return null;
+                    }
+                })
+                .Where(p => p != null);
+
+            //foreach (var p in validPassports)
+            //{
+            //    Console.WriteLine(p.ToString());
+            //}
+
+            var nStrictlyValidPassports = validPassports.Count();
+
+            Console.WriteLine($"Number of strictly valid passports (ignoring CountryID) : {nStrictlyValidPassports}");
+
+            #endregion
+         }
 
         static string FixNewLinesInInput(string input)
         {
@@ -50,12 +87,12 @@ namespace Year2020.Day4
                 try
                 {
                     var rawPassport = DeserialisePassportEntry(passportEntry);
-                    Console.WriteLine(rawPassport.ToString());
+                    //Console.WriteLine(rawPassport.ToString());
                     output.Add(rawPassport);
                 }
                 catch (Exception)
                 {
-                    Console.Error.WriteLine($"Error parsing entry at line {i} : '{passportEntry}'");
+                    Console.WriteLine($"Error parsing entry at line {i} : '{passportEntry}'");
                     continue;
                 }
             }

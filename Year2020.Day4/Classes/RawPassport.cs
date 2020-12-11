@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using System.Text.RegularExpressions;
 
 namespace Year2020.Day4.Classes
 {
@@ -50,6 +51,43 @@ namespace Year2020.Day4.Classes
                 && (EyeColor != null)
                 && (PassportID != null);
         }
+
+        //public bool IsStrictlyValid()
+        //{
+        //    if (!IsKindaValid())
+        //    {
+        //        return false;
+        //    }
+        //    else
+        //    {
+        //        var birthyear = int.Parse(BirthYear);
+        //        if (!(birthyear >= 1920 && birthyear <= 2002))
+        //        {
+        //            return false;
+        //        }
+
+        //        var issueYear = int.Parse(IssueYear);
+        //        if (!(issueYear >= 2010 && issueYear <= 2020))
+        //        {
+        //            return false;
+        //        }
+
+        //        var expirationYear = int.Parse(ExpirationYear);
+        //        if (!(expirationYear >= 2020 && expirationYear <= 2030))
+        //        {
+        //            return false;
+        //        }
+
+        //        {
+        //            string heightValidationRegex = "([0-9]+)([a-z]+)";
+        //            var match = Regex.Match(p.Height, heightValidationRegex);
+        //            var heightValue = int.Parse(match.Groups[1].Value);
+        //            var heightUnits = match.Groups[2].Value;
+        //        }
+
+        //        return true;
+        //    }
+        //}
 
         public override string ToString()
         {
