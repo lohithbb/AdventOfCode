@@ -11,7 +11,7 @@ namespace Year2020.Day3
         {
             Console.WriteLine("Advent of Code - Year 2020 - Day 3");
 
-            // input.txt should be present in the /bin directory (Properties > Copu to output directory = Copy always)
+            // input.txt should be present in the /bin directory (Properties > Copy to output directory = Copy always)
             var input = File.ReadAllLines("input.txt");
 
             // prepare input data       
