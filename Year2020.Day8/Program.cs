@@ -15,17 +15,23 @@ namespace Year2020.Day8
 
             Console.WriteLine("Part 1");
 
-            var instrctions = ProcessInput();
+            var instructions = ProcessInput();
 
+            var processor = new Processor(instructions);
 
+            try
+            {
+                processor.Process();
+            }
+            catch (Exception) { }
 
             #endregion Part 1
         }
 
         private static List<Instruction> ProcessInput()
         {
-            var input = File.ReadAllLines("input.txt");
-            //var input = File.ReadAllLines("example.txt");
+            //var input = File.ReadAllLines("input.txt");
+            var input = File.ReadAllLines("example.txt");
 
             var output = new List<Instruction>();
 
