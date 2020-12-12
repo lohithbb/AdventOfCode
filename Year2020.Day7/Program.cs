@@ -16,6 +16,23 @@ namespace Year2020.Day7
 
             Console.WriteLine("Part 1");
 
+            // Dictionary to store bagging rules
+            // key : Bag
+            // children : List<Bag>
+            var baggingRulesContains = new Dictionary<string, List<string>>();
+
+            // have Hashset<string> of colors
+            var setOfColors = new HashSet<string>();
+
+            // process input
+            ProcessInput(baggingRulesContains, setOfColors);
+
+            
+            #endregion
+        }
+
+        public static void ProcessInput(Dictionary<string, List<string>> baggingRulesOutput, HashSet<string> setOfColorsOutput)
+        {
             // input.txt should be present in the /bin directory (Properties > Copy to output directory = Copy always)
             var input = File.ReadAllLines("input.txt");
             //var input = File.ReadAllLines("example.txt");
@@ -41,14 +58,6 @@ namespace Year2020.Day7
             // match any bag descrption in the 2nd half of the string
             string regexBagDetails = @"([0-9]+) ([a-z ]+) (bags|bag)";
 
-            // Dictionary to store bagging rules
-            // key : Bag
-            // children : List<Bag>
-            var baggingRulesContains = new Dictionary<string, List<string>>();
-
-            // have Hashset<string> of colors
-            var colors = new HashSet<string>();
-
             // process input
             foreach (var line in input)
             {
@@ -57,7 +66,7 @@ namespace Year2020.Day7
                 var childrenBagsString = match.Groups[2].Value;
 
                 // add parent bag color to HashSet
-                colors.Add(parentBagColor);
+                setOfColorsOutput.Add(parentBagColor);
 
                 var childrenBags = new List<string>();
 
@@ -74,7 +83,7 @@ namespace Year2020.Day7
                     var bagColor = matchBag.Groups[2].Value;
 
                     // add child bag color to HashSet
-                    colors.Add(bagColor);
+                    setOfColorsOutput.Add(bagColor);
 
                     for (int i = 0; i < numberOfBags; i++)
                     {
@@ -82,16 +91,13 @@ namespace Year2020.Day7
                     }
 
                     // recurse over the remainder of the string (exit if empty)
-                    childrenBagsString = new string( matchInner.Groups[4].Value );
+                    childrenBagsString = new string(matchInner.Groups[4].Value);
                 }
 
-                baggingRulesContains.Add(parentBagColor, childrenBags);
+                baggingRulesOutput.Add(parentBagColor, childrenBags);
             }
 
             // Check Dictionary.Keys().Count = Hashset<string>.Count - It does!
-
-
-            #endregion
         }
     }
 }
