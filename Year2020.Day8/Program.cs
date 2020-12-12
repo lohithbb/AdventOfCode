@@ -30,8 +30,8 @@ namespace Year2020.Day8
 
         private static List<Instruction> ProcessInput()
         {
-            //var input = File.ReadAllLines("input.txt");
-            var input = File.ReadAllLines("example.txt");
+            var input = File.ReadAllLines("input.txt");
+            //var input = File.ReadAllLines("example.txt");
 
             var output = new List<Instruction>();
 

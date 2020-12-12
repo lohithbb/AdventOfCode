@@ -17,38 +17,42 @@ namespace Year2020.Day8
             long accumulator = 0;
             var cycleDectector = new HashSet<int>();
 
-            for (int indexCurrentInstruction = 0; indexCurrentInstruction < Instructions.Count; indexCurrentInstruction++)
+            // start at the first instruction
+            int indexCurrentInstruction = 0;
+            // end at the last instruction
+            while (indexCurrentInstruction < Instructions.Count)
             {
                 // load current instruction
                 var currentInstruction = Instructions[indexCurrentInstruction];
 
-                // cycle detection is done by maintaining an instrcutions that have been executed
+                // cycle detection is done by maintaining a list of instrcutions that have been executed
                 // when the same instruction is run, the addition to the HashSet fails and it will bomb out
-                try
+                if (cycleDectector.Add(indexCurrentInstruction))
                 {
-                    cycleDectector.Add(indexCurrentInstruction);
+                    switch (currentInstruction.Operation)
+                    {
+                        case "acc":
+                            accumulator = accumulator + currentInstruction.Argument;
+                            indexCurrentInstruction++;
+                            continue;
+
+                        case "jmp":
+                            indexCurrentInstruction = indexCurrentInstruction + currentInstruction.Argument;
+                            continue;
+
+                        case "nop":
+                            indexCurrentInstruction++;
+                            continue;
+
+                        default:
+                            break;
+                    }
                 }
-                catch (Exception)
+                else
                 {
                     Console.WriteLine($"Cycle detected at instruction {indexCurrentInstruction} : {currentInstruction.Operation} {currentInstruction.Argument}");
-                    throw;
-                }
-
-                switch (currentInstruction.Operation)
-                {
-                    case "acc":
-                        accumulator = accumulator + currentInstruction.Argument;
-                        break;
-
-                    case "jmp":
-                        indexCurrentInstruction = indexCurrentInstruction + currentInstruction.Argument;
-                        break;
-
-                    case "nop":
-                        continue;
-
-                    default:
-                        break;
+                    Console.WriteLine($"Accumulator : {accumulator}");
+                    throw new Exception("Cycle detected. Stopping...");
                 }
             }
         }
