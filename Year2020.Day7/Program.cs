@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Year2020.Day7
@@ -17,17 +18,45 @@ namespace Year2020.Day7
             Console.WriteLine("Part 1");
 
             // Dictionary to store bagging rules
-            // key : Bag
-            // children : List<Bag>
-            var baggingRulesContains = new Dictionary<string, List<string>>();
+            var baggingRules = new Dictionary<string, List<string>>();
 
             // have Hashset<string> of colors
             var setOfColors = new HashSet<string>();
 
             // process input
-            ProcessInput(baggingRulesContains, setOfColors);
+            ProcessInput(baggingRules, setOfColors);
 
-            
+            // Problem: find all bags containing (at least one) shiny gold bad
+            // this is a graph traversal problem
+
+            // this stack holds the list of colors to process
+            var currentNodes = new Stack<string>();
+            currentNodes.Push("shiny gold");
+
+            var processedNodes = new HashSet<string>();
+
+            // find parents that have these nodes as children
+            string currentNode = "";
+            while (currentNodes.TryPop(out currentNode))
+            {
+                var bagsContainingColor = baggingRules.Where(r => r.Value.Contains(currentNode)).Select(r => r.Key);
+
+                // put the current color on the list of processed nodes
+                processedNodes.Add(currentNode);
+
+                // filter the list of nodes returned
+                bagsContainingColor
+                    // remove nodes that have already been visited
+                    .Where(c => !processedNodes.Contains(c))
+                    .ToList()
+                    .ForEach(c => currentNodes.Push(c));
+            }
+
+            // need -1 to remove starting point
+            int numberOfBags = processedNodes.Count() - 1;
+
+            Console.WriteLine();
+
             #endregion
         }
 
