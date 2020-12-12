@@ -28,36 +28,72 @@ namespace Year2020.Day7
 
             // Problem: find all bags containing (at least one) shiny gold bad
             // this is a graph traversal problem
-
-            // this stack holds the list of colors to process
-            var currentNodes = new Stack<string>();
-            currentNodes.Push("shiny gold");
-
-            var processedNodes = new HashSet<string>();
-
-            // find parents that have these nodes as children
-            string currentNode = "";
-            while (currentNodes.TryPop(out currentNode))
             {
-                var bagsContainingColor = baggingRules.Where(r => r.Value.Contains(currentNode)).Select(r => r.Key);
+                // this stack holds the list of nodes to process
+                var currentNodes = new Stack<string>();
+                currentNodes.Push("shiny gold");
 
-                // put the current color on the list of processed nodes
-                processedNodes.Add(currentNode);
+                var processedNodes = new HashSet<string>();
 
-                // filter the list of nodes returned
-                bagsContainingColor
-                    // remove nodes that have already been visited
-                    .Where(c => !processedNodes.Contains(c))
-                    .ToList()
-                    .ForEach(c => currentNodes.Push(c));
+                // find all parents that have these nodes as children
+                string currentNode = "";
+                while (currentNodes.TryPop(out currentNode))
+                {
+                    // get the parent node that has this child node
+                    var bagsContainingColor = baggingRules
+                        .Where(r => r.Value.Contains(currentNode))
+                        .Select(r => r.Key);
+
+                    // put the current node on the list of processed nodes
+                    processedNodes.Add(currentNode);
+
+                    // filter the list of nodes returned
+                    bagsContainingColor
+                        // remove nodes that have already been visited
+                        .Where(c => !processedNodes.Contains(c))
+                        .ToList()
+                        .ForEach(c => currentNodes.Push(c));
+                }
+
+                // need -1 to remove starting point
+                int numberOfBags = processedNodes.Count() - 1;
+
+                Console.WriteLine($"Number of bag colors that can contain at least 1 shiny gold bag : {numberOfBags}");
             }
 
-            // need -1 to remove starting point
-            int numberOfBags = processedNodes.Count() - 1;
-
-            Console.WriteLine();
-
             #endregion
+
+
+            #region Part 2
+
+            Console.WriteLine("Part 2");
+
+            // same graph traversal problem, but now we are going the other way
+            {
+                // this stack holds the list of nodes to process
+                var currentNodes = new Stack<string>();
+                currentNodes.Push("shiny gold");
+
+                // list that stores the bags (not nodes) required
+                var processedNodes = new List<string>();
+                
+                string currentNode = "";
+                while (currentNodes.TryPop(out currentNode))
+                {
+                    processedNodes.Add(currentNode);
+
+                    // get child nodes for this node 
+                    var bags = baggingRules[currentNode];
+
+                    bags.ForEach(b => currentNodes.Push(b));
+                }
+
+                var numberOfBags = processedNodes.Count();
+
+                Console.WriteLine($"The number of bags required inside your shiny gold bag are : {numberOfBags}");
+            }
+            #endregion
+
         }
 
         public static void ProcessInput(Dictionary<string, List<string>> baggingRulesOutput, HashSet<string> setOfColorsOutput)
