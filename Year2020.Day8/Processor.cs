@@ -38,6 +38,7 @@ namespace Year2020.Day8
 
                         case "jmp":
                             indexCurrentInstruction = indexCurrentInstruction + currentInstruction.Argument;
+                            // we dont want the autoincrement of index to happen when we jump to an instruction
                             continue;
 
                         case "nop":
@@ -55,6 +56,9 @@ namespace Year2020.Day8
                     throw new Exception("Cycle detected. Stopping...");
                 }
             }
+
+            Console.WriteLine("Program has successfully completed.");
+            Console.WriteLine($"Accumulator : {accumulator}");
         }
     }
 }
