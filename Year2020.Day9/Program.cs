@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Yer2020.Day9
+namespace Year2020.Day9
 {
     internal class Program
     {

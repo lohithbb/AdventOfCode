@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Year2020.Day7", "Year2020.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Year2020.Day8", "Year2020.Day8\Year2020.Day8.csproj", "{7CAA241F-24E1-4774-BDFE-0B45886B9FFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yer2020.Day9", "Yer2020.Day9\Yer2020.Day9.csproj", "{F7052021-2477-4D82-A4C6-86D37B57A07D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Year2020.Day9", "Yer2020.Day9\Year2020.Day9.csproj", "{F7052021-2477-4D82-A4C6-86D37B57A07D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
