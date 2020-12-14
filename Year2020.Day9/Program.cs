@@ -125,13 +125,6 @@ namespace Year2020.Day9
                         {
                             result.Add(input[k]);
                         }
-                        
-                        //long[] result = new long[j - 1];
-
-                        //for (int z = 0; z < result.Length; z++)
-                        //{
-                        //    result[z] = input[i + z];
-                        //}
 
                         return result;
                     }
