@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Year2020.Day9
 {
@@ -45,7 +47,13 @@ namespace Year2020.Day9
 
             Console.WriteLine("Part 2");
 
+            // find contiguous list of at least 2 numbers that sum to the invalid number
+            var setSumToInvalidNumber = GetNumbersThatSumToInvalidNumber(input, invalidNumber);
 
+            //
+            var encyptionWeakness = setSumToInvalidNumber.Min<long>() + setSumToInvalidNumber.Max<long>();
+
+            Console.WriteLine($"Encryption weakness : {encyptionWeakness}");
 
             #endregion Part 2
         }
@@ -95,6 +103,56 @@ namespace Year2020.Day9
             }
 
             return false;
+        }
+
+        private static List<long> GetNumbersThatSumToInvalidNumber(long[] input, long invalidNumber)
+        {
+            // iterate over input, 'i' is the starting index
+            for (int i = 0; i < input.Length; i++)
+            {
+                long sum = input[i];
+
+                // iterate to computer the sum from index 'i'
+                for (int j = i + 1; j < input.Length; j++)
+                {
+                    sum = sum + input[j];
+
+                    if (sum == invalidNumber)
+                    {
+                        var result = new List<long>();
+                        
+                        for (int k = i; k <= j; k++)
+                        {
+                            result.Add(input[k]);
+                        }
+                        
+                        //long[] result = new long[j - 1];
+
+                        //for (int z = 0; z < result.Length; z++)
+                        //{
+                        //    result[z] = input[i + z];
+                        //}
+
+                        return result;
+                    }
+                }
+
+                // need to break out of this loop too
+                if (sum == invalidNumber)
+                {
+                    break;
+                }
+            }
+
+            return null;
+        }
+
+        private static void PrintList(List<long> listOfNumbers)
+        {
+            foreach (var number in listOfNumbers)
+            {
+                Console.WriteLine(number);
+            }
         }
     }
 }
