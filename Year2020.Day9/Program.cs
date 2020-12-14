@@ -50,13 +50,14 @@ namespace Year2020.Day9
             // find contiguous list of at least 2 numbers that sum to the invalid number
             var setSumToInvalidNumber = GetNumbersThatSumToInvalidNumber(input, invalidNumber);
 
-            //
             var encyptionWeakness = setSumToInvalidNumber.Min<long>() + setSumToInvalidNumber.Max<long>();
 
             Console.WriteLine($"Encryption weakness : {encyptionWeakness}");
 
             #endregion Part 2
         }
+
+        #region Helper Methods
 
         private static long[] ProcessInput()
         {
@@ -112,7 +113,7 @@ namespace Year2020.Day9
             {
                 long sum = input[i];
 
-                // iterate to computer the sum from index 'i'
+                // iterate to computer the sum from index 'i', onwards
                 for (int j = i + 1; j < input.Length; j++)
                 {
                     sum = sum + input[j];
@@ -120,7 +121,8 @@ namespace Year2020.Day9
                     if (sum == invalidNumber)
                     {
                         var result = new List<long>();
-                        
+
+                        // get the numbers from index 'i' -> 'j'
                         for (int k = i; k <= j; k++)
                         {
                             result.Add(input[k]);
@@ -147,5 +149,7 @@ namespace Year2020.Day9
                 Console.WriteLine(number);
             }
         }
+
+        #endregion Helper Methods
     }
 }
