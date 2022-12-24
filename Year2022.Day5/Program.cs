@@ -20,41 +20,6 @@ namespace Year2022.Day5
                 ParseDataForStackCrateInfo(exampleInput, stacks, positionalIndexes);
 
                 RunInstructions(exampleInput, stacks, positionalIndexes);
-                // TODO - pipe output of refactored function to this
-                //string[] instuctions;
-
-                // now to parse for instuctions
-                // ... and enact them?
-
-
-                //{
-                //    Regex r = new Regex(@"^move ([0-9]+) from ([0-9]+) to ([0-9]+)");
-                //    var instructions = exampleInput
-                //        .Where(l => r.IsMatch(l))
-                //        .ToList<string>();
-
-                //    foreach (var instruction in instructions)
-                //    {
-                //        var matches = Regex.Matches(instruction, r.ToString()).Cast<Match>().First().Groups;
-                //        int noOfCratesToMove = int.Parse(matches[1].Value);
-                //        int fromStack = int.Parse(matches[2].Value);
-                //        int toStack = int.Parse(matches[3].Value);
-
-                //        // do the moving
-                //        while (noOfCratesToMove != 0)
-                //        {
-                //            // pop from the FROM stack
-                //            var crate = stacks[fromStack].Pop();
-
-                //            // push onto the TO stack
-                //            stacks[toStack].Push(crate);
-
-                //            noOfCratesToMove--;
-                //        }
-                //    }
-
-
-                //}
 
                 Console.Write("The crates at the top of each stack are : ");
                 foreach (var s in stacks)
@@ -68,7 +33,21 @@ namespace Year2022.Day5
             {
                 Console.WriteLine("Part 1");
 
-                //var input = File.ReadAllLines("input.txt");
+                var input = File.ReadAllLines("input.txt");
+
+                Dictionary<int, Stack<char>> stacks = new Dictionary<int, Stack<char>>();
+                Dictionary<int, int> positionalIndexes = new Dictionary<int, int>();
+
+                ParseDataForStackCrateInfo(input, stacks, positionalIndexes);
+
+                RunInstructions(input, stacks, positionalIndexes);
+
+                Console.Write("The crates at the top of each stack are : ");
+                foreach (var s in stacks)
+                {
+                    Console.Write(s.Value.Peek());
+                }
+                Console.WriteLine();
             }
             #endregion
 
@@ -76,11 +55,28 @@ namespace Year2022.Day5
             {
                 Console.WriteLine("Part 2");
 
-                //var input = File.ReadAllLines("input.txt");
+                var input = File.ReadAllLines("input.txt");
+
+                Dictionary<int, Stack<char>> stacks = new Dictionary<int, Stack<char>>();
+                Dictionary<int, int> positionalIndexes = new Dictionary<int, int>();
+
+                ParseDataForStackCrateInfo(input, stacks, positionalIndexes);
+
+                RunNewInstructions(input, stacks, positionalIndexes);
+
+                Console.Write("The crates at the top of each stack are : ");
+                foreach (var s in stacks)
+                {
+                    Console.Write(s.Value.Peek());
+                }
+                Console.WriteLine();
             }
             #endregion
         }
 
+        /// <summary>
+        ///     Reads the input data and puts them into Dictionaries that have been passed in.
+        /// </summary>
         private static void ParseDataForStackCrateInfo(string[] input, Dictionary<int, Stack<char>> stacks, Dictionary<int, int> positionalIndexes)
         {
             // this is the line with the stack numbers (goes  1   2   3  etc.)
@@ -127,6 +123,9 @@ namespace Year2022.Day5
             }
         }
 
+        /// <summary>
+        ///     Parses the instructions, then runs them on the stacks object supplied.
+        /// </summary>
         private static void RunInstructions(string[] input, Dictionary<int, Stack<char>> stacks, Dictionary<int, int> positionalIndexes)
         {
             Regex r = new Regex(@"^move ([0-9]+) from ([0-9]+) to ([0-9]+)");
@@ -151,6 +150,50 @@ namespace Year2022.Day5
                     stacks[toStack].Push(crate);
 
                     noOfCratesToMove--;
+                }
+            }
+
+        }
+
+        /// <summary>
+        ///     Parses the instructions, then runs them on the stacks object supplied, but can move multiple items at once
+        /// </summary>
+        private static void RunNewInstructions(string[] input, Dictionary<int, Stack<char>> stacks, Dictionary<int, int> positionalIndexes)
+        {
+            Regex r = new Regex(@"^move ([0-9]+) from ([0-9]+) to ([0-9]+)");
+            var instructions = input
+                .Where(l => r.IsMatch(l))
+                .ToList<string>();
+
+            foreach (var instruction in instructions)
+            {
+                var matches = Regex.Matches(instruction, r.ToString()).Cast<Match>().First().Groups;
+                int noOfCratesToMove = int.Parse(matches[1].Value);
+                int fromStack = int.Parse(matches[2].Value);
+                int toStack = int.Parse(matches[3].Value);
+
+                Stack<char> temporaryStack = new Stack<char>();
+
+                // do the moving
+                while (noOfCratesToMove != 0)
+                {
+                    // pop from the FROM stack
+                    var crate = stacks[fromStack].Pop();
+
+                    // push onto the TEMP stack
+                    temporaryStack.Push(crate);
+                    //stacks[toStack].Push(crate);
+
+                    noOfCratesToMove--;
+                }
+
+                while (temporaryStack.Any())
+                {
+                    // pop from the TEMP stack
+                    var crate = temporaryStack.Pop();
+
+                    // push onto the TO stack
+                    stacks[toStack].Push(crate);
                 }
             }
 
