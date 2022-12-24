@@ -6,7 +6,7 @@ namespace Year2022.Day4
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Advent of Code - Year 2022 - Day 3");
+            Console.WriteLine("Advent of Code - Year 2022 - Day 4");
 
             #region Part 1 - Example
             {
